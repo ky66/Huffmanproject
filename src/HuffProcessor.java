@@ -86,6 +86,7 @@ public class HuffProcessor {
 			}
 			nextChar = in.readBits(1);		
 		}
+		out.close();
 	}
 
 		
