@@ -60,8 +60,8 @@ public class HuffProcessor {
 	 */
 
 	public void decompress(BitInputStream in, BitOutputStream out) {
-		if (in.readBits(BITS_PER_INT)!=HUFF_NUMBER){	
-			throw new HuffException("File does not begin with HuffNumber");
+		if (in.readBits(BITS_PER_INT)!= HUFF_TREE){	
+			throw new HuffException("Illegal Header");
 		}
 
 		HuffNode root = readTreeHeader(in);		//uses the helper method to read the trie
