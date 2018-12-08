@@ -58,13 +58,64 @@ public class HuffProcessor {
 	 * @param out
 	 *            Buffered bit stream writing to the output file.
 	 */
-	public void decompress(BitInputStream in, BitOutputStream out){
 
-		while (true){
-			int val = in.readBits(BITS_PER_WORD);
-			if (val == -1) break;
-			out.writeBits(BITS_PER_WORD, val);
+	public void decompress(BitInputStream in, BitOutputStream out) {
+		if (in.readBits(BITS_PER_INT)!=HUFF_NUMBER){	
+			throw new HuffException("File does not begin with HuffNumber");
 		}
-		out.close();
+
+		HuffNode root = readTreeHeader(in);		//uses the helper method to read the trie
+		
+		HuffNode current = root;   //we will need current for navigating in the tree without messing up the root
+		int nextChar = in.readBits(1);		
+		while (nextChar !=-1){
+			if (nextChar == 1){					
+				current = current.myRight;
+			}
+			else {
+				current = current.myLeft;
+			}
+
+			if (current.myLeft == null && current.myRight == null){		//If we're at a leaf node
+				if (current.myValue == PSEUDO_EOF){ //if we reach the end, we just return here
+					return;
+				} else {		
+					out.writeBits(BITS_PER_WORD,current.myValue); //writes it to the output file
+					current = root;									
+				}
+			}
+			nextChar = in.readBits(1);		
+		}
+		throw new HuffException("Missed the PSEUDO_EOF");
+	}
+
+		
+		
+		
+		
+//		while (true){
+//			int val = in.readBits(BITS_PER_WORD);
+//			if (val == -1) break;
+//			out.writeBits(BITS_PER_WORD, val);
+//		}
+//		out.close();
+//	}
+
+
+	private HuffNode readTreeHeader(BitInputStream in) {
+		
+			if (in.readBits(1) == -1) {
+				throw new HuffException("bit is equal to -1");
+			}   //throws exception when equal to -1
+
+			if (in.readBits(1) == 0){  //internal node so we recurse more
+				HuffNode left = readTreeHeader(in);
+				HuffNode right = readTreeHeader(in);
+				return new HuffNode(-1, 1, left, right);
+			} else {
+				return new HuffNode(in.readBits(BITS_PER_WORD+1), 0); //we are at the leaf
+			}
+
+
 	}
 }
