@@ -86,7 +86,6 @@ public class HuffProcessor {
 			}
 			nextChar = in.readBits(1);		
 		}
-		throw new HuffException("Missed the PSEUDO_EOF");
 	}
 
 		
