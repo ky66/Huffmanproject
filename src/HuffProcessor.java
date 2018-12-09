@@ -68,13 +68,15 @@ public class HuffProcessor {
 
 
 	public void compress(BitInputStream in, BitOutputStream out) {	
-		int[] countOccur = new int[ALPH_SIZE];
+		int[] countOccur = new int[ALPH_SIZE+1];
 		
 		int nextCharacter = in.readBits(BITS_PER_WORD);
 		while(nextCharacter != -1){					
 			countOccur[nextCharacter]++;
 			nextCharacter = in.readBits(BITS_PER_WORD);
 		}
+		
+		
 		in.reset();			
 
 		PriorityQueue<HuffNode> queueNode = new PriorityQueue<HuffNode>();	
@@ -95,7 +97,7 @@ public class HuffProcessor {
 
 		HuffNode root = queueNode.poll();
 		extractCodes(root, "");					
-		out.writeBits(BITS_PER_INT, HUFF_TREE);
+		out.writeBits(BITS_PER_INT, HUFF_NUMBER);
 		writeHeader(root, out);	
 
 		int nextChar = in.readBits(BITS_PER_WORD);	
@@ -183,16 +185,6 @@ public class HuffProcessor {
 
 
 	}
-	
-	
-//	 HuffProcessor hp  = new HuffProcessor(4);
-	 
-	 
-
-
-
-	
-	
 	
 	
 	
