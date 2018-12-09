@@ -95,7 +95,7 @@ public class HuffProcessor {
 
 		HuffNode root = queueNode.poll();
 		extractCodes(root, "");					
-		out.writeBits(BITS_PER_INT, HUFF_TREE;
+		out.writeBits(BITS_PER_INT, HUFF_TREE);
 		writeHeader(root, out);	
 
 		int nextChar = in.readBits(BITS_PER_WORD);	
