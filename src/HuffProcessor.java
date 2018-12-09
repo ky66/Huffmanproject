@@ -116,9 +116,9 @@ public class HuffProcessor {
 
 	private HuffNode readTreeHeader(BitInputStream in) {
 		
-			if (in.readBits(1) == -1) {
-				throw new HuffException("bit is equal to -1");
-			}   //throws exception when equal to -1
+//			if (in.readBits(1) == -1) {
+//				throw new HuffException("bit is equal to -1");
+//			}   //throws exception when equal to -1
 
 			if (in.readBits(1) == 0){  //internal node so we recurse more
 				HuffNode left = readTreeHeader(in);
