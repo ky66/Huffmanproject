@@ -70,7 +70,7 @@ public class HuffProcessor {
 		
 		
 
-private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
+public void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
 		
 
 	int nextChar = in.readBits(BITS_PER_WORD);	
@@ -126,7 +126,7 @@ public void codingHelper(HuffNode root, String path) {
 	
 
 
-private HuffNode makeTreeFtomCounts(int[] counts) {
+public HuffNode makeTreeFtomCounts(int[] counts) {
 	
 	
 	PriorityQueue<HuffNode> pq = new PriorityQueue<>();
@@ -168,7 +168,7 @@ private HuffNode makeTreeFtomCounts(int[] counts) {
 		
 		
 		
-private int[] readforCounts(BitInputStream in) {
+public int[] readforCounts(BitInputStream in) {
 	
 	int[] countOccur = new int[ALPH_SIZE+1];
 	
@@ -214,7 +214,7 @@ private int[] readforCounts(BitInputStream in) {
 
 }
 
-	private void readCompressBits(HuffNode root, BitInputStream in, BitOutputStream out) {
+	public void readCompressBits(HuffNode root, BitInputStream in, BitOutputStream out) {
 
 			   HuffNode current = root; 
 			   while (true) {
@@ -242,7 +242,7 @@ private int[] readforCounts(BitInputStream in) {
 		
 	}
 
-	private HuffNode readTreeHeader(BitInputStream in) {
+	public HuffNode readTreeHeader(BitInputStream in) {
 		
 //			if (in.readBits(1) == -1) {
 //				throw new HuffException("bit is equal to -1");
