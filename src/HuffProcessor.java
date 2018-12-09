@@ -92,7 +92,7 @@ public class HuffProcessor {
 		    HuffNode right = queueNode.remove();
 
 			int combinedWeight = left.myWeight + right.myWeight;
-			queueNode.add(new HuffNode(-1, combinedWeight, left, right)); 
+			queueNode.add(new HuffNode(1, combinedWeight, left, right)); 
 		}
 
 		HuffNode root = queueNode.poll();
