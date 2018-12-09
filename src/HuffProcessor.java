@@ -168,23 +168,19 @@ private HuffNode makeTreeFtomCounts(int[] counts) {
 		
 		
 		
-	private int[] readforCounts(BitInputStream in) {
-		
-		int[] countOccur = new int[ALPH_SIZE+1];
-		
-		int nextCharacter = in.readBits(BITS_PER_WORD);
-		
-		while(nextCharacter != -1){					
-			countOccur[nextCharacter]++;
-			nextCharacter = in.readBits(BITS_PER_WORD);
-		}
-		
-		
-		
-		
-		return null;
+private int[] readforCounts(BitInputStream in) {
+	
+	int[] countOccur = new int[ALPH_SIZE+1];
+	
+	int nextCharacter = in.readBits(BITS_PER_WORD);
+	
+	while(nextCharacter != -1){					
+		countOccur[nextCharacter]++;
+		nextCharacter = in.readBits(BITS_PER_WORD);
 	}
-
+	
+	return countOccur;
+}
 
 
 
