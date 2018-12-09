@@ -42,6 +42,7 @@ public class HuffProcessor {
 	 *            Buffered bit stream writing to the output file.
 	 */
 
+
 	String[] extractedCodes = new String[ALPH_SIZE+1];
 	
 	private void extractCodes(HuffNode current, String path){			
@@ -67,39 +68,36 @@ public class HuffProcessor {
 
 
 	public void compress(BitInputStream in, BitOutputStream out) {	
-		int[] countOccur = new int[ALPH_SIZE+1];
+		int[] countOccur = new int[ALPH_SIZE];
 		
 		int nextCharacter = in.readBits(BITS_PER_WORD);
 		while(nextCharacter != -1){					
 			countOccur[nextCharacter]++;
 			nextCharacter = in.readBits(BITS_PER_WORD);
 		}
-		countOccur[PSEUDO_EOF] = 1;
-				
+		in.reset();			
 
-		PriorityQueue<HuffNode> pq = new PriorityQueue<HuffNode>();	
+		PriorityQueue<HuffNode> queueNode = new PriorityQueue<HuffNode>();	
 		for (int i = 0; i < ALPH_SIZE; i++){
 			if (countOccur[i] > 0){
-				pq.add(new HuffNode(i, countOccur[i],null,null));
+				queueNode.add(new HuffNode(i, countOccur[i]));
 			}
 		}
-//		pq.add(new HuffNode(PSEUDO_EOF, 0));	
+		queueNode.add(new HuffNode(PSEUDO_EOF, 0));	
 		
-		while (pq.size() > 1){		
-		    HuffNode left = pq.remove();
-		    HuffNode right = pq.remove();
+		while (queueNode.size() > 1){		
+			HuffNode left = queueNode.remove();
+		    HuffNode right = queueNode.remove();
+
 			int combinedWeight = left.myWeight + right.myWeight;
-			pq.add(new HuffNode(-1, combinedWeight, left, right)); 
+			queueNode.add(new HuffNode(-1, combinedWeight, left, right)); 
 		}
 
-		HuffNode root = pq.remove();
+		HuffNode root = queueNode.poll();
 		extractCodes(root, "");					
-		out.writeBits(BITS_PER_INT, HUFF_TREE);
+		out.writeBits(BITS_PER_INT, HUFF_NUMBER);
 		writeHeader(root, out);	
-		
-		in.reset();
-		
-		
+
 		int nextChar = in.readBits(BITS_PER_WORD);	
 		while (nextChar != -1){
 			String code = extractedCodes[nextChar];				
@@ -109,11 +107,8 @@ public class HuffProcessor {
 
 		String code = extractedCodes[PSEUDO_EOF];			
 		out.writeBits(code.length(), Integer.parseInt(code, 2));
-		
-		out.close();
+		in.reset();										
 	}
-
-
 
 
 
