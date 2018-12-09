@@ -75,7 +75,7 @@ public class HuffProcessor {
 			countOccur[nextCharacter]++;
 			nextCharacter = in.readBits(BITS_PER_WORD);
 		}
-		
+		countOccur[PSEUDO_EOF] =1;
 		
 		in.reset();			
 
