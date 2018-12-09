@@ -106,11 +106,11 @@ private String[] makeCodingsFromTree(HuffNode root) {
 		return null;
 	}
 
-
+private String[] encodings = new String[ALPH_SIZE+1];
 
 private void codingHelper(HuffNode root, String path) {
 	
-	String[] encodings = new String[ALPH_SIZE+1];
+	
 	if (root.myLeft == null && root.myRight == null){
 		
 		encodings[root.myValue]=path;
