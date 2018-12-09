@@ -75,10 +75,7 @@ public class HuffProcessor {
 			nextCharacter = in.readBits(BITS_PER_WORD);
 		}
 		countOccur[PSEUDO_EOF] = 1;
-		
-
-		
-		in.reset();			
+				
 
 		PriorityQueue<HuffNode> pq = new PriorityQueue<HuffNode>();	
 		for (int i = 0; i < ALPH_SIZE; i++){
@@ -99,7 +96,10 @@ public class HuffProcessor {
 		extractCodes(root, "");					
 		out.writeBits(BITS_PER_INT, HUFF_TREE);
 		writeHeader(root, out);	
-
+		
+		in.reset();
+		
+		
 		int nextChar = in.readBits(BITS_PER_WORD);	
 		while (nextChar != -1){
 			String code = extractedCodes[nextChar];				
@@ -109,7 +109,8 @@ public class HuffProcessor {
 
 		String code = extractedCodes[PSEUDO_EOF];			
 		out.writeBits(code.length(), Integer.parseInt(code, 2));
-		in.reset();										
+		
+		out.close();
 	}
 
 
