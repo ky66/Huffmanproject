@@ -70,7 +70,7 @@ public class HuffProcessor {
 		
 		
 
-public void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
+private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
 		
 
 	int nextChar = in.readBits(BITS_PER_WORD);	
@@ -86,7 +86,7 @@ public void writeCompressedBits(String[] codings, BitInputStream in, BitOutputSt
 		
 	}
 
-public void writeHeader(HuffNode root, BitOutputStream out){
+private void writeHeader(HuffNode root, BitOutputStream out){
 		if (root.myLeft == null && root.myRight==null){
 			out.writeBits(1, 1);
 			out.writeBits(9,root.myValue);
@@ -99,7 +99,7 @@ public void writeHeader(HuffNode root, BitOutputStream out){
 	}
 
 
-public String[] makeCodingsFromTree(HuffNode root) {
+private String[] makeCodingsFromTree(HuffNode root) {
 		
 	  codingHelper(root,"");
 
@@ -108,7 +108,7 @@ public String[] makeCodingsFromTree(HuffNode root) {
 
 String[] encodings = new String[ALPH_SIZE+1];
 
-public void codingHelper(HuffNode root, String path) {
+private void codingHelper(HuffNode root, String path) {
 	
 	
 	if (root.myLeft == null && root.myRight == null){
@@ -126,7 +126,7 @@ public void codingHelper(HuffNode root, String path) {
 	
 
 
-public HuffNode makeTreeFtomCounts(int[] counts) {
+private HuffNode makeTreeFtomCounts(int[] counts) {
 	
 	
 	PriorityQueue<HuffNode> pq = new PriorityQueue<>();
@@ -168,7 +168,7 @@ public HuffNode makeTreeFtomCounts(int[] counts) {
 		
 		
 		
-public int[] readforCounts(BitInputStream in) {
+private int[] readforCounts(BitInputStream in) {
 	
 	int[] countOccur = new int[ALPH_SIZE+1];
 	
@@ -214,7 +214,7 @@ public int[] readforCounts(BitInputStream in) {
 
 }
 
-	public void readCompressBits(HuffNode root, BitInputStream in, BitOutputStream out) {
+	private void readCompressBits(HuffNode root, BitInputStream in, BitOutputStream out) {
 
 			   HuffNode current = root; 
 			   while (true) {
@@ -242,7 +242,7 @@ public int[] readforCounts(BitInputStream in) {
 		
 	}
 
-	public HuffNode readTreeHeader(BitInputStream in) {
+	private HuffNode readTreeHeader(BitInputStream in) {
 		
 //			if (in.readBits(1) == -1) {
 //				throw new HuffException("bit is equal to -1");
